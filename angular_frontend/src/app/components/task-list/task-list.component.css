@@ -1,12 +1,29 @@
 .task-board {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .task-columns-container {
+    display: flex;
     justify-content: space-between;
-    padding: 20px;
+    width: 100%;
   }
   
   .task-column {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
+    flex: 1;
+    margin: 0 10px;
+  }
+  
+  .task-list {
+    min-height: 200px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .task-card {
+    margin-bottom: 10px;
   }
   
