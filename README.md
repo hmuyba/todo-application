@@ -43,7 +43,7 @@ The project follows a **layered architecture**:
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd <todo-application>/frontend
+   cd todo-application/frontend
    
 2. Clone the repository:
    ```bash
@@ -58,7 +58,7 @@ The application will be available at **http://localhost:4200**.
 
 1. Navigate to the backend folder:
    ```bash
-   cd <repository-folder>/backend
+   cd todo-application/backend
 2. Configure application properties:
    -Update **src/main/resources/application.properties** with your database settings.
 3. Build and run the Spring Boot application:
