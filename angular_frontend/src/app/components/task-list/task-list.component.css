@@ -198,3 +198,7 @@
 .create-task-button.mat-mdc-raised-button.mat-primary:hover {
     background-color: #80bfff !important;
 }
+
+.task-card{
+    text-align: center;
+}
