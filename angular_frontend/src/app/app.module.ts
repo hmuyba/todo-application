@@ -18,14 +18,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialogModule } from '@angular/material/dialog'; // Added MatDialogModule
+import { MatDialogModule } from '@angular/material/dialog'; 
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskListComponent,
-    TaskFormComponent
+    TaskFormComponent,
+    DeleteConfirmationComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatOptionModule,
     MatSelectModule,
     MatSnackBarModule,
-    MatDialogModule, // Import MatDialogModule here
+    MatDialogModule, 
   ],
   providers: [
     provideClientHydration(),

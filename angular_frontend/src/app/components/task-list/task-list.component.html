@@ -1,5 +1,6 @@
 <div class="task-board" cdkDropListGroup>
-
+    <!-- Button to create a new task -->
+    <button mat-raised-button color="primary" class="create-task-button" (click)="openCreateTaskDialog()">Create Task</button>
     <!-- All Columns in the Same Parent Container -->
     <div class="task-columns-container">
   
@@ -16,8 +17,8 @@
                 <p>{{ task.description }}</p>
               </mat-card-content>
               <mat-card-actions>
-                <button mat-raised-button color="primary" (click)="editTask(task)">Edit</button>
-                <button mat-raised-button color="warn" (click)="task.id !== undefined && deleteTask(task.id)">Delete</button>
+                <button mat-raised-button color="primary" class="task-action-button" (click)="editTask(task)">Edit</button>
+                <button mat-raised-button color="warn" class="task-action-button" (click)="task.id !== undefined && deleteTask(task.id)">Delete</button>
               </mat-card-actions>
             </mat-card>
           </div>
@@ -37,8 +38,8 @@
                 <p>{{ task.description }}</p>
               </mat-card-content>
               <mat-card-actions>
-                <button mat-raised-button color="primary" (click)="editTask(task)">Edit</button>
-                <button mat-raised-button color="warn" (click)="task.id !== undefined && deleteTask(task.id)">Delete</button>
+                <button mat-raised-button color="primary" class="task-action-button" (click)="editTask(task)">Edit</button>
+                <button mat-raised-button color="warn" class="task-action-button" (click)="task.id !== undefined && deleteTask(task.id)">Delete</button>
               </mat-card-actions>
             </mat-card>
           </div>
@@ -58,8 +59,8 @@
                 <p>{{ task.description }}</p>
               </mat-card-content>
               <mat-card-actions>
-                <button mat-raised-button color="primary" (click)="editTask(task)">Edit</button>
-                <button mat-raised-button color="warn" (click)="task.id !== undefined && deleteTask(task.id)">Delete</button>
+                <button mat-raised-button color="primary" class="task-action-button" (click)="editTask(task)">Edit</button>
+                <button mat-raised-button color="warn" class="task-action-button" (click)="task.id !== undefined && deleteTask(task.id)">Delete</button>
               </mat-card-actions>
             </mat-card>
           </div>
@@ -67,8 +68,4 @@
       </div>
   
     </div>
-  
-    <!-- Button to create a new task -->
-    <button mat-raised-button color="primary" (click)="openCreateTaskDialog()">Create Task</button>
   </div>
-  

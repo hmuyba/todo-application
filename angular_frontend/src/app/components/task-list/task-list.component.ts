@@ -4,6 +4,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../models/task.model';
 import { TaskFormComponent } from '../task-form/task-form.component';
+import { DeleteConfirmationComponent } from '../delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-task-list',
@@ -42,14 +43,18 @@ export class TaskListComponent implements OnInit {
       error => console.error('Error fetching tasks', error)
     );
   }
-  
-  
 
   deleteTask(id: number): void {
-    this.taskService.deleteTask(id).subscribe(
-      () => this.getTasks(), // Refresh the list
-      error => console.error('Error deleting task', error)
-    );
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.taskService.deleteTask(id).subscribe(
+          () => this.getTasks(), // Refresh the list
+          error => console.error('Error deleting task', error)
+        );
+      }
+    });
   }
 
   editTask(task: Task): void {
@@ -78,20 +83,57 @@ export class TaskListComponent implements OnInit {
   }
 
   onDrop(event: CdkDragDrop<Task[]>): void {
-    console.log('Dropped event:', event);
     const task = event.item.data as Task;
-    console.log('Task:', task);
-
-    // Normalize the new status from the container ID
     const newStatus = this.normalizeStatus(event.container.id);
-    console.log('New Status:', newStatus);
-
+    const currentIndex = event.currentIndex;
+  
     if (this.normalizeStatus(task.status) !== newStatus) {
+      // Task is being moved to a different column
+      const previousIndex = this.getTaskArrayByStatus(task.status).indexOf(task);
+      
+      // Remove the task from the original list
+      this.getTaskArrayByStatus(task.status).splice(previousIndex, 1);
+      
+      // Add the task to the new list at the desired position
+      const newList = this.getTaskArrayByStatus(newStatus);
+      newList.splice(currentIndex, 0, task);
+  
+      // Update the task's status
       task.status = newStatus;
+  
+      // Update the task in the backend
       this.taskService.updateTask(task).subscribe(
-        () => this.getTasks(), // Refresh the list
+        () => console.log('Task status updated successfully'),
         error => console.error('Error updating task status', error)
       );
+    } else {
+      // Task is being reordered within the same column
+      this.reorderTasks(this.getTaskArrayByStatus(newStatus), event.previousIndex, currentIndex);
+    }
+  }
+  
+  
+  reorderTasks(tasks: Task[], previousIndex: number, currentIndex: number): void {
+    if (previousIndex !== currentIndex) {
+      const [movedTask] = tasks.splice(previousIndex, 1); // Remove the task from its old position
+      tasks.splice(currentIndex, 0, movedTask); // Insert the task into its new position
+  
+      // Optionally, save the new order to the backend
+      // This would require adding a field to represent the order in the task model (e.g., "order" or "priority")
+      // and sending an update request for the reordered tasks.
+    }
+  }
+  
+  getTaskArrayByStatus(status: string): Task[] {
+    switch (status) {
+      case 'TO_DO':
+        return this.todoTasks;
+      case 'IN_PROGRESS':
+        return this.inProgressTasks;
+      case 'DONE':
+        return this.doneTasks;
+      default:
+        return [];
     }
   }
 }
