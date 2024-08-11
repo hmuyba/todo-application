@@ -1,4 +1,4 @@
-# Task Management Application
+# To do Application
 
 ## Overview
 
@@ -44,3 +44,19 @@ The project follows a **layered architecture**:
    ```bash
    git clone <repository-url>
    cd <repository-folder>/frontend
+   
+2. Clone the repository:
+   ```bash
+   npm install
+3. Run the Angular application:
+   ```bash
+   npm start
+The application will be available at **http://localhost:4200.**
+
+
+#### Backend (Spring Boot)
+
+1. Navigate to the backend folder:
+   ```bash
+   cd <repository-folder>/backend
+
