@@ -43,7 +43,7 @@ The project follows a **layered architecture**:
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd <repository-folder>/frontend
+   cd <todo-application>/frontend
    
 2. Clone the repository:
    ```bash
@@ -51,7 +51,7 @@ The project follows a **layered architecture**:
 3. Run the Angular application:
    ```bash
    npm start
-The application will be available at **http://localhost:4200.**
+The application will be available at **http://localhost:4200**.
 
 
 #### Backend (Spring Boot)
@@ -59,4 +59,13 @@ The application will be available at **http://localhost:4200.**
 1. Navigate to the backend folder:
    ```bash
    cd <repository-folder>/backend
+2. Configure application properties:
+   -Update **src/main/resources/application.properties** with your database settings.
+3. Build and run the Spring Boot application:
+   ```bash
+   ./mvnw spring-boot:run
+The backend API will be available at **http://localhost:8080**.
+
+
+
 
