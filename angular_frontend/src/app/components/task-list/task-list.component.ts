@@ -85,32 +85,54 @@ export class TaskListComponent implements OnInit {
   onDrop(event: CdkDragDrop<Task[]>): void {
     const task = event.item.data as Task;
     const newStatus = this.normalizeStatus(event.container.id);
+    const previousStatus = this.normalizeStatus(task.status);
     const currentIndex = event.currentIndex;
+    const previousIndex = event.previousIndex;
   
-    if (this.normalizeStatus(task.status) !== newStatus) {
-      // Task is being moved to a different column
-      const previousIndex = this.getTaskArrayByStatus(task.status).indexOf(task);
-      
-      // Remove the task from the original list
-      this.getTaskArrayByStatus(task.status).splice(previousIndex, 1);
-      
-      // Add the task to the new list at the desired position
-      const newList = this.getTaskArrayByStatus(newStatus);
-      newList.splice(currentIndex, 0, task);
+    if (previousStatus !== newStatus) {
+      // Moving task to a different column
+      const previousArray = this.getTaskArrayByStatus(previousStatus);
+      const newArray = this.getTaskArrayByStatus(newStatus);
   
-      // Update the task's status
+      // Remove task from the original column
+      previousArray.splice(previousIndex, 1);
+  
+      // Add task to the new column at the correct position
+      newArray.splice(currentIndex, 0, task);
+  
+      // Update task status
       task.status = newStatus;
   
-      // Update the task in the backend
+      // Update backend and refresh task list
       this.taskService.updateTask(task).subscribe(
-        () => console.log('Task status updated successfully'),
-        error => console.error('Error updating task status', error)
+        () => {
+          console.log('Task status updated successfully');
+          this.getTasks(); // Refresh the list
+        },
+        error => {
+          console.error('Error updating task status', error);
+          // Revert the changes in case of an error
+          newArray.splice(currentIndex, 1);
+          previousArray.splice(previousIndex, 0, task);
+        }
       );
     } else {
-      // Task is being reordered within the same column
-      this.reorderTasks(this.getTaskArrayByStatus(newStatus), event.previousIndex, currentIndex);
+      // Reordering within the same column
+      const taskArray = this.getTaskArrayByStatus(newStatus);
+  
+      // Remove and reinsert the task at the new position
+      const removedTask = taskArray.splice(previousIndex, 1)[0];
+      taskArray.splice(currentIndex, 0, removedTask);
+  
+      // Optionally update the backend if necessary
+      // For reordering within the same column, you might not need to update the backend
+      // unless the task order affects other parts of your application.
     }
   }
+  
+  
+  
+  
   
   
   reorderTasks(tasks: Task[], previousIndex: number, currentIndex: number): void {
