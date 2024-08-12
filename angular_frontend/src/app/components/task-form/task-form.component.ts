@@ -34,6 +34,11 @@ export class TaskFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.taskForm.invalid) {
+      this.taskForm.markAllAsTouched(); // Mark all controls as touched to show validation errors
+      return; // Prevent submission if form is invalid
+    }
+  
     if (this.isEditMode && this.data) {
       const updatedTask: Task = { ...this.data, ...this.taskForm.value };
       this.taskService.updateTask(updatedTask).subscribe(
@@ -47,6 +52,7 @@ export class TaskFormComponent implements OnInit {
       );
     }
   }
+  
 
   onCancel(): void {
     this.dialogRef.close();
